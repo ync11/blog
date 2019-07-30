@@ -13,7 +13,8 @@
 5. 修改DatabaseSeeder.php 文件， 填充数据到posts表
 6. 运行`php artisan db:seede`  来填充初始化数据
 *3456三个步骤用于填充数据，也可以直接使用Seeder来填充数据*
-7. 创建控制器 `php artisan make:controller BlogController` (在`app/Http/Controllers`目录下生成)
+7. 创建控制器 `php artisan make:controller BlogController` (在`app/Http/Controllers`目录下生成)  
+`php artisan make:controller Admin/PostController --resource` (创建资源路由)
 8. 创建视图
 ## laravel目录结构
 1. config目录下的文件为配置文件， 可通过辅助函数`config()`来访问
@@ -23,3 +24,17 @@
 1. 在routes/web.php中添加路由， 如 `Route::get('/blog/{slug}', 'BlogController@showPost')->name('blog.detail');` (name() 用于添加路由的别名， 该别名可在前端模板中使用)
 2. 在`BlogController.php`中的showPost方法中编写此方法， 并且通过`showPost($slug)`将前端的slug传入控制器
 ## Eloquent ORM
+## 前端布局
+1. `layout.blade.php`为基本视图， laravel中需要加csrf`<meta name="csrf-token" content="{{ csrf_token() }}">`
+2. `@yield()`将输出继承自该布局的子视图块的内容
+3. `@include()`引入另一个Blade模板
+4. `navbar.blade.php`为侧边导航栏， 一般放在partials目录下
+5. `@auth @endauth`为登录认证成功所能看到的侧边栏， `@guest @endguest`为游客看到的侧边栏， 其中`@else`为认证成功后显示的内容
+6. `@extends()` 用于继承模板
+7. `@section() @endsection` 写对应的 `@yield()`中的内容
+8. form 标签内需要加入csrf `<input type="hidden" name="_token" value="{{ csrf_token() }}">`
+## Blade模板
+1. `{{}}`渲染PHP变量; `{!! !!}`渲染原生HTML代码(富文本数据渲染); `{{-- --}}`用于注释php代码
+    - `{{}}`渲染的PHP变量会使用`htmlentities()`进行HTML字符转义，来避免类似XSS的攻击
+    - `@{{}}`编译时会移除@， 保留`{{}}`结构
+2. 
