@@ -20,6 +20,8 @@
 1. config目录下的文件为配置文件， 可通过辅助函数`config()`来访问
 2. routes目录用于存放路由， 一般应用的路由放在web.php中
 3. resources/views 目录下用来存放Blade模板
+4. database/migrations 目录下用于存放迁移文件
+5. app/Http/Requests 用于存放表单请求类
 ## 参数传递
 1. 在routes/web.php中添加路由， 如 `Route::get('/blog/{slug}', 'BlogController@showPost')->name('blog.detail');` (name() 用于添加路由的别名， 该别名可在前端模板中使用)
 2. 在`BlogController.php`中的showPost方法中编写此方法， 并且通过`showPost($slug)`将前端的slug传入控制器
@@ -37,4 +39,9 @@
 1. `{{}}`渲染PHP变量; `{!! !!}`渲染原生HTML代码(富文本数据渲染); `{{-- --}}`用于注释php代码
     - `{{}}`渲染的PHP变量会使用`htmlentities()`进行HTML字符转义，来避免类似XSS的攻击
     - `@{{}}`编译时会移除@， 保留`{{}}`结构
-2. 
+2. 一般以`_form.blade.php`带有下划线命名的局部视图为该模型共享的视图
+## 表单请求类
+1. 用于对表单字段进行验证
+2. 表单请求类的`authorize()`方法默认`return false;`， 使用表单请求类需改为true
+3. `rules()`方法中用于验证字段， 返回一个数组， 数组内为验证字段
+4. 使用时将对应controller中的需要验证的表单方法的`(Request $request)`改为对应的表单请求类名称如`(XxxRequest $request)`
